@@ -1,6 +1,6 @@
-use std::{env, error::Error, ffi::OsString, fs};
+use std::{env, ffi::OsString, fs};
 
-type SuperError = Box<dyn Error>;
+type SuperError = Box<dyn std::error::Error>;
 
 fn main() -> Result<(), SuperError> {
     let args: Vec<OsString> = env::args_os().collect();
