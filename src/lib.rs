@@ -112,10 +112,9 @@ impl Config {
                 })
                 .collect::<Vec<_>>()
         }
-        println!();
-        println!("Searching for `{}`", &self.query);
+        println!("\nSearching for `{}`", &self.query);
         println!("In file `{}`", &self.file_path);
-        println!("With text:");
+        println!("With text:\n");
         let contents = fs::read_to_string(&self.file_path)?;
         search(&self.query, &contents, self.if_ignore_case)
             .into_iter()
