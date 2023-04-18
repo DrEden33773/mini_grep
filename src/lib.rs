@@ -3,9 +3,9 @@ use std::{env, ffi::OsString, fs};
 type SuperError = Box<dyn std::error::Error>;
 
 pub struct Config {
-    pub query: String,
-    pub file_path: String,
-    pub if_ignore_case: bool,
+    query: String,
+    file_path: String,
+    if_ignore_case: bool,
 }
 
 impl Config {
