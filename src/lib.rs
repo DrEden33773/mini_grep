@@ -85,7 +85,10 @@ impl Config {
     }
     pub fn show_all_contents(&self) -> Result<(), Box<dyn Error>> {
         let contents = fs::read_to_string(&self.file_path)?;
-        println!("With text:\n{}", contents);
+        println!("\nSearching for `{}`", &self.query);
+        println!("In file `{}`", &self.file_path);
+        println!("With text:\n");
+        println!("{}", contents);
         Ok(())
     }
     pub fn search(&self) -> Result<Vec<String>, Box<dyn Error>> {
