@@ -4,13 +4,10 @@ use std::{env, process};
 type SuperError = Box<dyn std::error::Error>;
 
 pub fn main() -> Result<(), SuperError> {
-    println!();
     let config = Config::build_from_iter(env::args_os()).unwrap_or_else(|err| {
         eprintln!("Problem parsing arguments: {err}");
         process::exit(-1);
     });
-    println!("Searching for `{}`", &config.query);
-    println!("In file `{}`", &config.file_path);
     if let Err(err) = config.run() {
         eprintln!("Application error: {err}");
         process::exit(0);
