@@ -1,6 +1,4 @@
-use std::{env, ffi::OsString, fs};
-
-type SuperError = Box<dyn std::error::Error>;
+use std::{env, error::Error, ffi::OsString, fs};
 
 pub struct Config {
     query: String,
@@ -13,7 +11,7 @@ impl Config {
         query: &OsString,
         file_path: &OsString,
         if_ignore_case: bool,
-    ) -> Result<Self, SuperError> {
+    ) -> Result<Self, Box<dyn Error>> {
         let (query, file_path) = (
             query.to_str().ok_or("Invalid `query`!")?.to_string(),
             file_path
@@ -27,7 +25,7 @@ impl Config {
             if_ignore_case,
         })
     }
-    pub fn build_from_iter<T>(mut args: T) -> Result<Self, SuperError>
+    pub fn build_from_iter<T>(mut args: T) -> Result<Self, Box<dyn Error>>
     where
         T: Iterator<Item = OsString>,
     {
@@ -56,7 +54,7 @@ impl Config {
             if_ignore_case,
         })
     }
-    pub fn build(args: &[OsString]) -> Result<Self, SuperError> {
+    pub fn build(args: &[OsString]) -> Result<Self, Box<dyn Error>> {
         let (query, file_path) = (
             (&args
                 .get(1)
@@ -85,12 +83,12 @@ impl Config {
             if_ignore_case,
         })
     }
-    pub fn show_all_contents(&self) -> Result<(), SuperError> {
+    pub fn show_all_contents(&self) -> Result<(), Box<dyn Error>> {
         let contents = fs::read_to_string(&self.file_path)?;
         println!("With text:\n{}", contents);
         Ok(())
     }
-    pub fn search(&self) -> Result<Vec<String>, SuperError> {
+    pub fn search(&self) -> Result<Vec<String>, Box<dyn Error>> {
         let contents = fs::read_to_string(&self.file_path)?;
         let results = contents
             .lines()
@@ -99,7 +97,7 @@ impl Config {
             .collect::<Vec<_>>();
         Ok(results)
     }
-    pub fn run(&self) -> Result<(), SuperError> {
+    pub fn run(&self) -> Result<(), Box<dyn Error>> {
         fn search<'a>(query: &str, contents: &'a str, if_ignore_case: bool) -> Vec<&'a str> {
             contents
                 .lines()

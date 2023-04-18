@@ -1,9 +1,7 @@
 use mini_grep::Config;
-use std::{env, process};
+use std::{env, error::Error, process};
 
-type SuperError = Box<dyn std::error::Error>;
-
-pub fn main() -> Result<(), SuperError> {
+pub fn main() -> Result<(), Box<dyn Error>> {
     let config = Config::build_from_iter(env::args_os()).unwrap_or_else(|err| {
         eprintln!("Problem parsing arguments: {err}");
         process::exit(-1);
