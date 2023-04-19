@@ -19,6 +19,7 @@ impl Config {
                 .ok_or("Invalid `file_path`!")?
                 .to_string(),
         );
+        let if_ignore_case = env::var("IGNORE_CASE").is_ok() || if_ignore_case;
         Ok(Config {
             query,
             file_path,
@@ -42,12 +43,7 @@ impl Config {
                 .ok_or("Invalid `file_path`!")?
                 .to_string(),
         );
-        let if_ignore_case = env::var("IGNORE_CASE").is_ok()
-            || if let Some(_) = args.next() {
-                true
-            } else {
-                false
-            };
+        let if_ignore_case = env::var("IGNORE_CASE").is_ok() || matches!(args.next(), Some(_));
         Ok(Config {
             query,
             file_path,
@@ -71,12 +67,7 @@ impl Config {
                 .to_string())
                 .to_owned(),
         );
-        let if_ignore_case = env::var("IGNORE_CASE").is_ok()
-            || if let Some(_) = &args.get(3) {
-                true
-            } else {
-                false
-            };
+        let if_ignore_case = env::var("IGNORE_CASE").is_ok() || matches!(&args.get(3), Some(_));
         Ok(Config {
             query,
             file_path,
